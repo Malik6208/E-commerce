@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "252165468472",
+    "project_id": "ecomm-app-33b72",
+    "storage_bucket": "ecomm-app-33b72.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252165468472:android:f19d8eecf1cd3e1faa91cd",
+        "android_client_info": {
+          "package_name": "com.example.shop_fusion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "252165468472-3fqaqemcq9dp89t6d3git7eic86s11ku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpK9Enyj_wp780r5_b0FSc7OUSJ8kenoQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "252165468472-3fqaqemcq9dp89t6d3git7eic86s11ku.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "252165468472-3buu0mjmnk93esvq262oombv7im6pj7f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shopFusion"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
