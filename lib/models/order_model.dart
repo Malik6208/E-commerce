@@ -1,5 +1,5 @@
-class CartModel {
-  CartModel({
+class OrdersModel {
+  OrdersModel({
     required this.createdAt,
     required this.deliveryTime,
     required this.fullPrice,
@@ -17,6 +17,7 @@ class CartModel {
     required this.customerAddress,
     required this.customerPinCode,
     required this.customerDeviceToken,
+    required this.customerId,
 
   });
   late final String createdAt;
@@ -30,16 +31,17 @@ class CartModel {
   late final String salePrice;
   late final int productQuantity;
   late final double productFullPrice;
-  late final String status;
+  late final bool status;
   late final String customerName;
   late final String customerPhone;
   late final String customerAddress;
   late final String customerPinCode;
   late final String customerDeviceToken;
+  late final String customerId;
 
 
 
-  CartModel.fromJson(Map<String, dynamic> json) {
+  OrdersModel.fromJson(Map<String, dynamic> json) {
     createdAt = json['createdAt'];
     deliveryTime = json['deliveryTime'];
     fullPrice = json['fullPrice'];
@@ -57,6 +59,7 @@ class CartModel {
     customerAddress=json['customerAddress'];
     customerPinCode=json['customerPinCode'];
     customerDeviceToken=json['customerDeviceToken'];
+    customerId=json['customerId'];
 
   }
 
@@ -79,6 +82,7 @@ class CartModel {
     _data['customerAddress'] = customerAddress;
     _data['customerPinCode'] = customerPinCode;
     _data['customerDeviceToken'] = customerDeviceToken;
+    _data['customerId'] = customerId;
     return _data;
   }
 }
