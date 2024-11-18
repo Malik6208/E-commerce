@@ -7,10 +7,12 @@ import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:shop_fusion/controllres/firebase/farebase_hepler.dart';
 import 'package:shop_fusion/models/cart_model.dart';
+import 'package:shop_fusion/service/order_placing_cervice.dart';
 import 'package:shop_fusion/utils/app_constant.dart';
 import 'package:shop_fusion/utils/compenents/custom_button.dart';
 
 import '../../controllres/firebase/cart_total_price_controller.dart';
+import '../../controllres/get_device_token_controller.dart';
 import '../../utils/compenents/custom_textField.dart';
 class CheckOutScreen extends StatefulWidget {
   const CheckOutScreen({super.key});
@@ -21,6 +23,8 @@ class CheckOutScreen extends StatefulWidget {
 
 class _CheckOutScreenState extends State<CheckOutScreen> {
   CartTotalPriceController cartTotalPriceController=Get.put(CartTotalPriceController());
+  OrderPlacingCervice orderPlacingCervice=OrderPlacingCervice();
+  GetDeviceController getDeviceController=Get.put(GetDeviceController());
   final fireStore= FirebaseFirestore.instance.collection('Carts').
   doc(FireBaseHelper.user!.uid).collection('cartOrders');
   TextEditingController nameController=TextEditingController();
@@ -155,7 +159,19 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
            SizedBox(height: Get.height*.04,),
            CustomButtom(voidCallback: (){
              if (kDebugMode) {
-               print('Fucket');
+               String name=nameController.text.trim();
+               String phone=phoneController.text.trim();
+               String address=addressController.text.toString();
+               String pinCode=pinCodeController.text.toString();
+               String deviceToken= getDeviceController.deviceToken.toString();
+               orderPlacingCervice.placeOrder(
+                   context: context,
+                   name: name,
+                   phone: phone,
+                   address: address,
+                   pinCode: pinCode,
+                   deviceToken:deviceToken,
+                   );
              }
            },
                title: 'Place Order'),
