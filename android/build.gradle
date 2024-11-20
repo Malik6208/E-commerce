@@ -5,8 +5,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.2' // Check your Flutter docs for compatibility
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:8.0.2' // Check your Flutter docs for compatibility
+       // classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20"
+        classpath "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+        classpath "com.android.support:multidex:1.0.3"
     }
 }
 

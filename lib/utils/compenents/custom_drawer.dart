@@ -8,10 +8,12 @@ import 'package:shop_fusion/controllres/firebase/farebase_hepler.dart';
 import 'package:shop_fusion/controllres/image_picker_controller.dart';
 import 'package:shop_fusion/models/user_model.dart';
 import 'package:shop_fusion/screens/auth_ui/welcome_screen.dart';
+import 'package:shop_fusion/screens/user_panel/all_Orders.dart';
 import 'package:shop_fusion/utils/app_constant.dart';
 import 'package:shop_fusion/utils/utils.dart';
 class CustomDrawer extends StatefulWidget {
-  const CustomDrawer({super.key});
+  String userProfilePic='';
+   CustomDrawer({super.key});
 
   @override
   State<CustomDrawer> createState() => _CustomDrawerState();
@@ -36,6 +38,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 if (!snapshot.hasData || snapshot.data == null) {
                   return Center(child: Text('User not found'));
                 }else {
+                  widget.userProfilePic=snapshot.data!.userImg!;
                   UserModel user = snapshot.data!;
                   return Column(
                     children: [
@@ -66,9 +69,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             ],
                           ),
                           title: Text(user.userName.toString(),
-                            style: TextStyle(color: AppConstant.appTextColor),),
+                            style: const TextStyle(color: AppConstant.appTextColor),),
                           subtitle: Text(user.email.toString(),
-                            style: TextStyle(color: AppConstant.appTextColor),),
+                            style: const TextStyle(color: AppConstant.appTextColor),),
                         ),
                       ),
                       Divider(
@@ -104,15 +107,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 5),
                         child: ListTile(
+                          onTap: (){
+                           Get.to(()=>Allorders());
+
+                          },
                           titleAlignment: ListTileTitleAlignment.center,
-                          leading: Icon(Icons.shopping_bag_rounded, size: 35,
+                          leading: const Icon(Icons.shopping_bag_rounded, size: 35,
                             color: AppConstant.appTextColor,),
-                          title: Text('Shopping',
+                          title: const Text('Orders',
                             style: TextStyle(color: AppConstant.appTextColor),),
-                          trailing: Icon(Icons.arrow_forward, size: 30,
+                          trailing: const Icon(Icons.arrow_forward, size: 30,
                             color: AppConstant.appTextColor,),
                         ),
                       ),

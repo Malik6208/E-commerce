@@ -13,11 +13,13 @@ class OrdersModel {
     required this.productFullPrice,
     required this.status,
     required this.customerName,
+    required this.customerImg,
     required this.customerPhone,
     required this.customerAddress,
     required this.customerPinCode,
     required this.customerDeviceToken,
     required this.customerId,
+    required this.ordersId,
 
   });
   late final String createdAt;
@@ -33,11 +35,14 @@ class OrdersModel {
   late final double productFullPrice;
   late final bool status;
   late final String customerName;
+  late final String customerImg;
   late final String customerPhone;
   late final String customerAddress;
   late final String customerPinCode;
   late final String customerDeviceToken;
   late final String customerId;
+  late final String ordersId;
+
 
 
 
@@ -55,11 +60,13 @@ class OrdersModel {
     productFullPrice=json['productFullPrice'];
     status=json['status'];
     customerName=json['customerName'];
+    customerImg=json['customerImg'];
     customerPhone=json['customerPhone'];
     customerAddress=json['customerAddress'];
     customerPinCode=json['customerPinCode'];
     customerDeviceToken=json['customerDeviceToken'];
     customerId=json['customerId'];
+    ordersId=json['ordersId'];
 
   }
 
@@ -73,6 +80,7 @@ class OrdersModel {
     _data['productId'] = productId;
     _data['productImages'] = productImages;
     _data['productName'] = productName;
+    _data['customerImg'] = customerImg;
     _data['salePrice'] = salePrice;
     _data['productQuantity'] = productQuantity;
     _data['productFullPrice'] = productFullPrice;
@@ -83,6 +91,7 @@ class OrdersModel {
     _data['customerPinCode'] = customerPinCode;
     _data['customerDeviceToken'] = customerDeviceToken;
     _data['customerId'] = customerId;
+    _data['ordersId']=ordersId;
     return _data;
   }
 }

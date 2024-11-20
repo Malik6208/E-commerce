@@ -1,14 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_common/get_reset.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:shop_fusion/controllres/firebase/farebase_hepler.dart';
 import 'package:shop_fusion/models/cart_model.dart';
+import 'package:shop_fusion/models/review_model.dart';
+import 'package:shop_fusion/models/user_model.dart';
 import 'package:shop_fusion/utils/app_constant.dart';
 import 'package:shop_fusion/utils/compenents/custom_button.dart';
 import 'package:shop_fusion/utils/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 class ProductDetailasScreen extends StatefulWidget {
   dynamic productDeatails;
    ProductDetailasScreen({super.key,required this.productDeatails});
@@ -18,7 +24,10 @@ class ProductDetailasScreen extends StatefulWidget {
 }
 
 class _ProductDetailasScreenState extends State<ProductDetailasScreen> {
+   @override
+
   User? user=FirebaseAuth.instance.currentUser;
+  UserModel? userModel;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +87,9 @@ class _ProductDetailasScreenState extends State<ProductDetailasScreen> {
                         children: [
                          SizedBox(
                            width:Get.width/3,
-                           child: ElevatedButton(onPressed: (){},
+                           child: ElevatedButton(onPressed: (){
+                             sendMrssageOnWhatsapp();
+                           },
                              style: ElevatedButton.styleFrom(
                                backgroundColor: AppConstant.appSecondryColor
                              ),
@@ -105,11 +116,73 @@ class _ProductDetailasScreenState extends State<ProductDetailasScreen> {
                   ),
                 ),
               ),
-            )
+            ),
+            FutureBuilder(
+                future: FirebaseFirestore.instance.collection('Reviews')
+                    .doc(widget.productDeatails['productId']).
+                collection('allReviews').get(),
+
+                builder: (context, snapshot) {
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CupertinoActivityIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData ) {
+                  return const Center(child: Text('No Review found.'));
+                 } else {
+
+                    List<ReviewModel> documentData = snapshot.data!.docs.map((e) => ReviewModel.fromJson(e.data()) ).toList();
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: documentData!.length,
+                      itemBuilder: (context, index) {
+                         ReviewModel reviewModel=documentData[index] ;
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+                          child: Card(elevation: 2,
+                            child: ListTile(
+                               leading: CircleAvatar(
+                                 backgroundImage: NetworkImage(reviewModel.customerProfilePic),
+
+                               ),
+                              title:Text(reviewModel.customerName
+                                ,style: const TextStyle(fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text(reviewModel.feedback,style:
+                              const TextStyle(fontSize: 18,
+                                  fontWeight: FontWeight.bold),),
+                              trailing: Text(reviewModel.rating),
+                            ),
+                          ),
+                        );
+                      },);
+
+                     }
+
+                },),
           ],
+
         ),
       ),
     );
+  }
+  Future<void> sendMrssageOnWhatsapp()async{
+    try{
+      const number='+917321939626';
+      final message='Hello can i help you\n regarding this product\n '
+          '${widget.productDeatails['productName']}\n ${widget.productDeatails['fullPrice']}';
+      final url='https://wa.me/$number?text=${Uri.encodeComponent(message)}';
+      if(await canLaunch(url)){
+        await launch(url);
+      }
+    }catch (e){
+      if (kDebugMode) {
+        print('Error while lunch url: ${e.toString()}');
+      }
+    }
+
   }
   Future<void> checkProductExistences({required String uId,
     int quantityIncrement=1})
@@ -164,5 +237,7 @@ class _ProductDetailasScreenState extends State<ProductDetailasScreen> {
     }
 
   }
+
+
 
 }
